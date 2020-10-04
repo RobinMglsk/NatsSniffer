@@ -1,4 +1,5 @@
 import dotenv, { config } from "dotenv";
+import { stringify } from "querystring";
 export class Config {
     private static instance: Config;
 
@@ -29,6 +30,23 @@ export class Config {
         if (fallback) {
             return fallback;
         }
+    
+    }
+    public getAsBoolean(setting: string, fallback?: boolean): boolean {
+        const value = this.get(setting);
+        if (typeof value !== 'undefined') {
+           if(value === '1' || value.toLowerCase() === 'true'){
+               return true;
+           }else{
+               return false;
+           }
+        }
+
+        if (fallback) {
+            return fallback;
+        }
+
+        return false;
     }
 
     public getFromJSON<T>(setting: string, fallback?: T): T | void {
