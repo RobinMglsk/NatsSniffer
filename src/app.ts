@@ -2,6 +2,7 @@ import express from "express";
 import config from "./utils/Config";
 
 import apiRoutes from "./routes/api";
+import Logger from "./utils/Logger";
 const app = express();
 const port = config.getAsNumber("PORT", 3001);
 const hostname = config.get("HOSTNAME", "localhost");
@@ -14,5 +15,5 @@ app.use(apiRoutes);
 
 // Start app
 app.listen(port, () => {
-    console.log(`NATS Sniffer listening at http://${hostname}:${port}`);
+    Logger.log(`NATS Sniffer listening at http://${hostname}:${port}`);
 });
