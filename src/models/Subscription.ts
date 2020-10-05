@@ -10,19 +10,19 @@ export default class Subscription {
         subject?: string;
         createdAt?: Date;
     }) {
-        if (data && data.id) {
+        if (data?.id) {
             this.id = data.id;
         } else {
             this.id = uuid();
         }
 
-        if (data && data.subject) {
+        if (data?.subject) {
             this.subject = data.subject;
         } else {
             this.subject = "";
         }
 
-        if (data && data.createdAt) {
+        if (data?.createdAt) {
             this.createdAt = data.createdAt;
         } else {
             this.createdAt = new Date();
