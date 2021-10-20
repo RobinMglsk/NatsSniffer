@@ -1,3 +1,4 @@
+import NATS from "nats";
 import { v1 as uuid } from "uuid";
 
 export default class Server {
@@ -8,6 +9,8 @@ export default class Server {
     private _password?: string;
     private _token?: string;
     private _usingToken = false;
+    private _isConnected = false;
+    private _connection!: NATS.Client;
 
     constructor(data: {
         address: string;
@@ -55,6 +58,10 @@ export default class Server {
         }
     }
 
+    get isConnected(): boolean {
+        return this._isConnected;
+    }
+
     set token(token: string | void) {
         if (typeof token === "string") {
             this._token = token;
@@ -74,6 +81,15 @@ export default class Server {
     getUrl() {
         if (this._usingToken) {
             return `nats://${this._token}@${this.address}:${this.port}`;
+        }
+    }
+
+    connect() {
+        this._connection = NATS.connect(this.getUrl())
+    }
+    disconnect() {
+        if(this.isConnected){
+            this._connection.close();
         }
     }
 }
